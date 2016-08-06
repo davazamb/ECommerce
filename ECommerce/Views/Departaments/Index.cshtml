@@ -1,0 +1,38 @@
+﻿@model IEnumerable<ECommerce.Models.Departament>
+
+@{
+    ViewBag.Title = "Estados";
+}
+<div class="row">
+    <div class="col-md-offset-2 col-md-8">
+        <h2>Estados</h2>
+
+        <p>
+            <a href="@Url.Action("Create" , "Departaments")" class="btn btn-success"><i class="fa fa-plus fa-lg"></i> Agregar</a>
+
+        </p>
+        <table class="table table-hover table-bordered table-striped">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        <a href="@Url.Action("Edit" , "Departaments",  new { id = item.DepartamentId })" class="btn btn-primary"><i class="fa fa-edit fa-lg"></i> Edit</a>
+                        <a href="@Url.Action("Details" , "Departaments",  new { id=item.DepartamentId })" class="btn btn-warning"><i class="fa fa-eye fa-lg"></i> Details</a>
+                        <a href="@Url.Action("Delete" , "Departaments",  new { id=item.DepartamentId })" class="btn btn-danger"><i class="fa fa-trash-o fa-lg"></i> Delete</a>
+                   </td>
+               </tr>
+            }
+
+        </table>
+    </div>
+</div>
