@@ -26,5 +26,7 @@ namespace ECommerce.Models
         public System.Data.Entity.DbSet<ECommerce.Models.City> Cities { get; set; }
 
         public System.Data.Entity.DbSet<ECommerce.Models.Company> Companies { get; set; }
+
+        public System.Data.Entity.DbSet<ECommerce.Models.User> Users { get; set; }
     }
 }

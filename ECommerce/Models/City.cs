@@ -26,6 +26,7 @@ namespace ECommerce.Models
 
         //EL Ciudad tiene varias y se pluraliza su hijo
         public virtual ICollection<Company> Companies { get; set; }
+        public virtual ICollection<User> Users { get; set; }
 
     }
 }

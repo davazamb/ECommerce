@@ -21,5 +21,6 @@ namespace ECommerce.Models
         //EL departamento tiene relacion y se pluraliza. sus hijos
         public virtual ICollection<City> Cities { get; set; }
         public virtual ICollection<Company> Companies { get; set; }
+        public virtual ICollection<User> Users { get; set; }
     }
 }

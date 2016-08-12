@@ -7,15 +7,25 @@ using System.Web;
 
 namespace ECommerce.Models
 {
-    public class Company
+    public class User
     {
         [Key]
-        public int CompanyId { get; set; }
+        public int UserId { get; set; }
+        [Required(ErrorMessage = "El Campo {0} es requerido")]
+        [MaxLength(256, ErrorMessage = "El Campo {0} debe tener maximo {1} Caracter de longitud")]
+        [Display(Name = "E-mail")]
+        [Index("User_Name_Index", IsUnique = true)]
+        [DataType(DataType.EmailAddress)]
+        public string UserName { get; set; }
         [Required(ErrorMessage = "El Campo {0} es requerido")]
         [MaxLength(50, ErrorMessage = "El Campo {0} debe tener maximo {1} Caracter de longitud")]
-        [Display(Name = "Empresa")]
-        [Index("Company_Name_Index", IsUnique = true)]
-        public string Name { get; set; }
+        [Display(Name = "Nombre")]
+        public string FirstName { get; set; }
+        [Required(ErrorMessage = "El Campo {0} es requerido")]
+        [MaxLength(50, ErrorMessage = "El Campo {0} debe tener maximo {1} Caracter de longitud")]
+        [Display(Name = "Apellido")]
+        public string LastName { get; set; }
+
         [Required(ErrorMessage = "El Campo {0} es requerido")]
         [MaxLength(20, ErrorMessage = "El Campo {0} debe tener maximo {1} Caracter de longitud")]
         [DataType(DataType.PhoneNumber)]
@@ -26,10 +36,11 @@ namespace ECommerce.Models
         [Display(Name = "Dirección")]
         public string Address { get; set; }
         [DataType(DataType.ImageUrl)]
-        public string Logo { get; set; }
-        [NotMapped]
-        public HttpPostedFileBase LogoFile { get; set; }
-
+        public string Photo { get; set; }
+        [Required(ErrorMessage = "El Campo {0} es requerido")]
+        [Range(1, double.MaxValue, ErrorMessage = "Debe seleccionar un {0}")]
+        [Display(Name = "Empresa")]
+        public int CompanyId { get; set; }
         [Required(ErrorMessage = "El Campo {0} es requerido")]
         [Range(1, double.MaxValue, ErrorMessage = "Debe seleccionar un {0}")]
         [Display(Name = "Estado")]
@@ -39,9 +50,13 @@ namespace ECommerce.Models
         [Display(Name = "Ciudad")]
         public int CityId { get; set; }
 
+        [Display(Name = "Usuario")]
+        public string FullName { get { return string.Format("{0} {1}", FirstName, LastName); } }
+        [NotMapped]
+        public HttpPostedFileBase PhotoFile { get; set; }
         //Esta es lado de varios de la relacion su Padre
         public virtual Departament Departament { get; set; }
         public virtual City City { get; set; }
-        public virtual ICollection<User> Users { get; set; }
+        public virtual Company Company { get; set; }
     }
 }
