@@ -1,11 +1,11 @@
 ﻿@model IEnumerable<ECommerce.Models.City>
 
 @{
-    ViewBag.Title = "Cities";
+    ViewBag.Title = "Ciudades";
 }
 <div class="row">
     <div class="col-md-offset-2 col-md-8">
-        <h2>Cities</h2>
+        <h2>Ciudades</h2>
 
         <p>
             <a href="@Url.Action("Create" , "Cities")" class="btn btn-success"><i class="fa fa-plus fa-lg"></i> Agregar</a>
@@ -32,9 +32,9 @@
                         @Html.DisplayFor(modelItem => item.Name)
                     </td>
                     <td>
-                        <a href="@Url.Action("Edit" , "Cities",  new { id = item.CityId })" class="btn btn-primary"><i class="fa fa-edit fa-lg"></i> Edit</a>
-                        <a href="@Url.Action("Details" , "Cities",  new { id=item.CityId })" class="btn btn-warning"><i class="fa fa-eye fa-lg"></i> Details</a>
-                        <a href="@Url.Action("Delete" , "Cities",  new { id=item.CityId })" class="btn btn-danger"><i class="fa fa-trash-o fa-lg"></i> Delete</a>
+                        <a href="@Url.Action("Edit" , "Cities",  new { id = item.CityId })" class="btn btn-primary"><i class="fa fa-edit fa-lg"></i> Editar</a>
+                        <a href="@Url.Action("Details" , "Cities",  new { id=item.CityId })" class="btn btn-warning"><i class="fa fa-eye fa-lg"></i> Detailles</a>
+                        <a href="@Url.Action("Delete" , "Cities",  new { id=item.CityId })" class="btn btn-danger"><i class="fa fa-trash-o fa-lg"></i> Eliminar</a>
 
                     </td>
                 </tr>

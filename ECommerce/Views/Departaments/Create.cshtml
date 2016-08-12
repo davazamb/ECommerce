@@ -25,15 +25,13 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <a href="@Url.Action("Index" , "Departaments")" class="btn btn-info"><i class="fa fa-backward"></i> Regresar</a>|
+                <input type="submit" value="->-Crear-<-" class="btn btn-success" />
             </div>
         </div>
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

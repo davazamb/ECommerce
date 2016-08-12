@@ -11,52 +11,131 @@ using ECommerce.Classes;
 
 namespace ECommerce.Controllers
 {
-    public class CitiesController : Controller
+    public class CompaniesController : Controller
     {
         private ECommerceContext db = new ECommerceContext();
 
-        // GET: Cities
+        // GET: Companies
         public ActionResult Index()
         {
-            var cities = db.Cities.Include(c => c.Department);
-            return View(cities.ToList());
+            var companies = db.Companies.Include(c => c.City).Include(c => c.Departament);
+            return View(companies.ToList());
         }
 
-        // GET: Cities/Details/5
+        // GET: Companies/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            City city = db.Cities.Find(id);
-            if (city == null)
+            Company company = db.Companies.Find(id);
+            if (company == null)
             {
                 return HttpNotFound();
             }
-            return View(city);
+            return View(company);
         }
 
-        // GET: Cities/Create
+        // GET: Companies/Create
         public ActionResult Create()
-        {            
-            ViewBag.DepartamentId = new SelectList(
-                CombosHelper.GetDepartments(),
-                "DepartamentId",
-                "Name");
+        {
+            ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name");
+            ViewBag.DepartamentId = new SelectList(CombosHelper.GetDepartments(), "DepartamentId", "Name");
             return View();
         }
 
-        // POST: Cities/Create
+        // POST: Companies/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(City city)
+        public ActionResult Create(Company company)
+        {
+            if (ModelState.IsValid)
+            {               
+                db.Companies.Add(company);
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    if (ex.InnerException != null &&
+                        ex.InnerException.InnerException != null &&
+                        ex.InnerException.InnerException.Message.Contains("_Index"))
+                    {
+                        ModelState.AddModelError(string.Empty, "Hay un registro con el mismo valor");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, ex.Message);
+                    }
+                }
+                
+                if (company.LogoFile != null)
+                {
+                    var folder = "~/Content/Logos";
+                    var file = string.Format("{0}.jpg", company.CompanyId);
+                    var response = FilesHelper.UploadPhoto(company.LogoFile, folder, file);
+                    if (response)
+                    {
+                        var pic = string.Format("{0}/{1}", folder, file);
+                        company.Logo = pic;
+                        db.Entry(company).State = EntityState.Modified;
+                        db.SaveChanges();
+                    }
+                }
+
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name", company.CityId);
+            ViewBag.DepartamentId = new SelectList(CombosHelper.GetDepartments(), "DepartamentId", "Name", company.DepartamentId);
+            return View(company);
+        }
+
+        // GET: Companies/Edit/5
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var company = db.Companies.Find(id);
+
+            if (company == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name", company.CityId);
+            ViewBag.DepartamentId = new SelectList(CombosHelper.GetDepartments(), "DepartamentId", "Name", company.DepartamentId);
+            return View(company);
+        }
+
+        // POST: Companies/Edit/5
+        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
+        // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(Company company)
         {
             if (ModelState.IsValid)
             {
-                db.Cities.Add(city);
+                if (company.LogoFile != null)
+                {
+                    var pic = string.Empty;
+                    var folder = "~/Content/Logos";
+                    var file = string.Format("{0}.jpg", company.CompanyId);
+                    var response = FilesHelper.UploadPhoto(company.LogoFile, folder, file);
+                    if (response)
+                    {
+                        pic = string.Format("{0}/{1}", folder, file);
+                        company.Logo = pic;
+                    }
+                }
+                db.Entry(company).State = EntityState.Modified;
                 try
                 {
                     db.SaveChanges();
@@ -75,95 +154,35 @@ namespace ECommerce.Controllers
                         ModelState.AddModelError(string.Empty, ex.Message);
                     }
                 }
-            }
 
-            ViewBag.DepartamentId = new SelectList(
-                CombosHelper.GetDepartments(),
-                "DepartamentId",
-                "Name",
-                city.DepartamentId);
-            return View(city);
+            }
+            ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name", company.CityId);
+            ViewBag.DepartamentId = new SelectList(CombosHelper.GetDepartments(), "DepartamentId", "Name", company.DepartamentId);
+            return View(company);
         }
 
-        // GET: Cities/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            City city = db.Cities.Find(id);
-            if (city == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.DepartamentId = new SelectList(
-                CombosHelper.GetDepartments(),
-                "DepartamentId",
-                "Name",
-                city.DepartamentId);
-            return View(city);
-        }
-
-        // POST: Cities/Edit/5
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
-        // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(City city)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(city).State = EntityState.Modified;
-                try
-                {
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
-                }
-                catch (Exception ex)
-                {
-                    if (ex.InnerException != null &&
-                    ex.InnerException.InnerException != null &&
-                    ex.InnerException.InnerException.Message.Contains("_Index"))
-                    {
-                        ModelState.AddModelError(string.Empty, "Hay un registro con el mismo valor");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError(string.Empty, ex.Message);
-                    }
-                }
-            }
-            ViewBag.DepartamentId = new SelectList(
-                CombosHelper.GetDepartments(),
-                "DepartamentId",
-                "Name",
-                city.DepartamentId);
-            return View(city);
-        }
-
-        // GET: Cities/Delete/5
+        // GET: Companies/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            City city = db.Cities.Find(id);
-            if (city == null)
+            Company company = db.Companies.Find(id);
+            if (company == null)
             {
                 return HttpNotFound();
             }
-            return View(city);
+            return View(company);
         }
 
-        // POST: Cities/Delete/5
+        // POST: Companies/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            City city = db.Cities.Find(id);
-            db.Cities.Remove(city);
+            Company company = db.Companies.Find(id);
+            db.Companies.Remove(company);
             //Mensaje de adverntecnia al eliminar en cascada
             try
             {
@@ -183,7 +202,13 @@ namespace ECommerce.Controllers
                     ModelState.AddModelError(string.Empty, ex.Message);
                 }
             }
-            return View(city);
+            return View(company);
+        }
+        public JsonResult GetCities(int departamentId)
+        {
+            db.Configuration.ProxyCreationEnabled = false;
+            var cities = db.Cities.Where(c => c.DepartamentId == departamentId);
+            return Json(cities);
         }
 
         protected override void Dispose(bool disposing)

@@ -46,17 +46,32 @@ namespace ECommerce.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "DepartamentId,Name")] Departament departament)
+        public ActionResult Create(Departament departament)
         {
             if (ModelState.IsValid)
             {
                 db.Departaments.Add(departament);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+                    if (ex.InnerException != null &&
+                    ex.InnerException.InnerException != null &&
+                    ex.InnerException.InnerException.Message.Contains("_Index"))
+                    {
+                        ModelState.AddModelError(string.Empty, "Hay un registro con el mismo valor");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, ex.Message);
+                    }
+                }
             }
-
-            return View(departament);
-        }
+                return View(departament);
+       }
 
         // GET: Departaments/Edit/5
         public ActionResult Edit(int? id)
@@ -78,13 +93,29 @@ namespace ECommerce.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "DepartamentId,Name")] Departament departament)
+        public ActionResult Edit(Departament departament)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(departament).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                catch ( Exception ex)
+                {
+                    if (ex.InnerException != null &&
+                    ex.InnerException.InnerException != null &&
+                    ex.InnerException.InnerException.Message.Contains("_Index"))
+                    {
+                        ModelState.AddModelError(string.Empty, "Hay un registro con el mismo valor");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, ex.Message);
+                    }
+                }
             }
             return View(departament);
         }
@@ -111,8 +142,26 @@ namespace ECommerce.Controllers
         {
             Departament departament = db.Departaments.Find(id);
             db.Departaments.Remove(departament);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            //Mensaje de adverntecnia al eliminar en cascada
+            try
+            {
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null &&
+                    ex.InnerException.InnerException != null &&
+                    ex.InnerException.InnerException.Message.Contains("REFERENCE"))
+                {
+                    ModelState.AddModelError(string.Empty, "El registro no se puede eliminar porque tiene registros relacionados");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, ex.Message);
+                }
+            }
+            return View(departament);
         }
 
         protected override void Dispose(bool disposing)
