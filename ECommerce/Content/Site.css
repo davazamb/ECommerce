@@ -25,3 +25,17 @@ textarea {
 .fa-input {
   font-family: FontAwesome, 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
+/*Arreglos mios*/
+.dp {
+    border: 5px solid #eee;
+    transition: all .2s ease-in-out;
+}
+
+.col-centered {
+    display:inline-block;
+    float:none;
+    /* reset the text-align */
+    text-align:left;
+    /* inline-block space fix */
+    margin-right:-4px;
+}

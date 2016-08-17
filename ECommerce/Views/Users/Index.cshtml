@@ -9,73 +9,116 @@
 <p>
     <a href="@Url.Action("Create" , "Users")" class="btn btn-success"><i class="fa fa-plus fa-lg"></i> Agregar</a>
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.FullName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.UserName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Company.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Departament.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.City.Name)
-        </th>
-       
-        <th>
-            @Html.DisplayNameFor(model => model.Phone)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Address)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Photo)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.FullName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UserName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Company.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Departament.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.City.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Phone)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Address)
-        </td>
-        <td>
-            @if (!string.IsNullOrEmpty(item.Photo))
+<hr />
+<div class="row margin-b-2">
+    @foreach (var item in Model)
             {
-                <img src="@Url.Content(item.Photo)" alt="Image" style="width:100px;height:100px;max-width: 100%; height: auto;" />
-            }
+        <dl class="col-sm-6 col-md-3">
+            <dd class="text-center">
+                <a href="@Url.Action("Details" , "Users",  new { id = item.UserId })">
+                    @Html.DisplayFor(modelItem => item.FullName)
+                </a>
+            </dd>
+            <dd>
+                <div class="row text-center">
+                    <div>
+                        @if (!string.IsNullOrEmpty(item.Photo))
+                        {
+                            <a href="@Url.Action("Details" , "Users",  new { id = item.UserId })">
+                                <img src="@Url.Content(item.Photo)" alt="Image" style="width:150px;height:150px;" />
+                            </a>
+                        }
+                    </div>
+                </div>
 
-        </td>
-        <td>
-            <a href="@Url.Action("Edit" , "Users",  new { id = item.UserId })" class="btn btn-primary"><i class="fa fa-edit fa-lg"></i> Editar</a>
-            <a href="@Url.Action("Details" , "Users",  new { id = item.UserId })" class="btn btn-warning"><i class="fa fa-eye fa-lg"></i> Detailles</a>
-            <a href="@Url.Action("Delete" , "Users",  new { id = item.UserId })" class="btn btn-danger"><i class="fa fa-trash-o fa-lg"></i> Eliminar</a>
+            </dd>
+            <dd class="text-center">
+                @Html.DisplayFor(modelItem => item.Company.Name)
+            </dd>
+            <dd class="text-center">
+                @Html.DisplayFor(modelItem => item.UserName)
+            </dd>
+            <dd><p></p></dd>
+            <dd class="text-center">
+                <a href="@Url.Action("Edit" , "Users",  new { id = item.UserId })" class="btn btn-primary"><i class="fa fa-edit fa-lg"></i></a>|
+                <a href="@Url.Action("Details" , "Users",  new { id = item.UserId })" class="btn btn-warning"><i class="fa fa-eye fa-lg"></i></a>|
+                <a href="@Url.Action("Delete" , "Users",  new { id = item.UserId })" class="btn btn-danger"><i class="fa fa-trash-o fa-lg"></i></a>
+            </dd>
 
-        </td>
-    </tr>
-}
+        </dl>
+    }
+</div>
 
-</table>
+
+
+
+@*<table class="table table-hover table-condensed table-responsive">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Company.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Departament.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.City.Name)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Phone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Photo)
+            </th>
+            <th></th>
+        </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Company.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Departament.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.City.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @if (!string.IsNullOrEmpty(item.Photo))
+                {
+                    <img src="@Url.Content(item.Photo)" class="media-object dp img-circle" alt="Image" style="width:100px;height:100px;max-width: 100%; height: auto;" />
+                }
+
+            </td>
+            <td>
+                <p><a href="@Url.Action("Edit" , "Users",  new { id = item.UserId })" class="btn btn-primary"><i class="fa fa-edit fa-lg"></i> Editar</a></p>
+                <p><a href="@Url.Action("Details" , "Users",  new { id = item.UserId })" class="btn btn-warning"><i class="fa fa-eye fa-lg"></i> Detalles</a></p>
+                <p><a href="@Url.Action("Delete" , "Users",  new { id = item.UserId })" class="btn btn-danger"><i class="fa fa-trash-o fa-lg"></i> Eliminar</a></p>
+
+            </td>
+        </tr>
+    }
+
+    </table>*@

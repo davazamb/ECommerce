@@ -1,0 +1,47 @@
+﻿@model IEnumerable<ECommerce.Models.Tax>
+
+@{
+    ViewBag.Title = "Impuestos";
+}
+<div class="row">
+    <div class="col-md-offset-2 col-md-8">
+        <h2>Impuestos</h2>
+
+        <p>
+            <a href="@Url.Action("Create" , "Taxes")" class="btn btn-success"><i class="fa fa-plus fa-lg"></i> Agregar</a>
+
+        </p>
+        <table class="table table-hover table-bordered table-striped">
+            <tr>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Rate)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Rate)
+                    </td>
+                    <td>
+                        <a href="@Url.Action("Edit" , "Taxes",  new { id = item.TaxId })" class="btn btn-primary"><i class="fa fa-edit fa-lg"></i> Editar</a>|
+                        <a href="@Url.Action("Details" , "Taxes",  new { id=item.TaxId })" class="btn btn-warning"><i class="fa fa-eye fa-lg"></i> Detalles</a>|
+                        <a href="@Url.Action("Delete" , "Taxes",  new { id=item.TaxId })" class="btn btn-danger"><i class="fa fa-trash-o fa-lg"></i> Eliminar</a>
+
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+</div>

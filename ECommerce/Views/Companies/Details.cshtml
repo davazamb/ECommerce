@@ -6,72 +6,80 @@
 
 <h2>Details</h2>
 
-<div>
-    <h4>Company</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.City.Name)
-        </dt>
+<div class="row">
+    <div class="col-md-offset-1 col-md-5">
 
-        <dd>
-            @Html.DisplayFor(model => model.City.Name)
-        </dd>
+        <h4>Company</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.City.Name)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Departament.Name)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.City.Name)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Departament.Name)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Departament.Name)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Departament.Name)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Phone)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Phone)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Phone)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Address)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Phone)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Address)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Address)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Logo)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Logo)
-        </dd>
-        <dd>
-            <hr />
-                <a href="@Url.Action("Index" , "Companies")" class="btn btn-info"><i class="fa fa-backward"></i> Regresar</a>|
+            <dd>
+                @Html.DisplayFor(model => model.Address)
+            </dd>
+            <dd>
+                <hr />
+                <a href="@Url.Action("Index" , "Companies")" class="btn btn-warning"><i class="fa fa-backward"></i> Regresar</a>|
                 <a href="@Url.Action("Edit" , "Companies",  new { id=Model.CompanyId })" class="btn btn-success"><i class="fa fa-edit fa-lg"></i> Editar</a>
-           
-        </dd>
-    </dl>
+
+            </dd>
+        </dl>
+    </div>
+    <div class="col-md-push-1 col-md-5">
+        <dl>
+            <dd>
+                <span style="font-family: verdana; font-size: 20px; font-weight: bold; font-style: italic; background: #ffffcc; color: green; line-height: 18px">
+                    @Html.DisplayFor(model => model.Name)
+                </span>
+            </dd>
+        </dl>
+        <dl>
+            <dd>
+                @if (!string.IsNullOrEmpty(Model.Logo))
+            {
+                    <img src="@Url.Content(Model.Logo)" alt="Image" style="width:250px; height:250px;max-width:100%; height:auto;" />
+                }
+            </dd>
+        </dl>
+    </div>
+
 
 
 </div>
 
-<p>
 
 
-    @*<input type="submit" value="->-Crear-<-" class="btn btn-success" />
-    @Html.ActionLink("Edit", "Edit", new { id = Model.CompanyId }) |
-    @Html.ActionLink("Back to List", "Index")*@
-</p>

@@ -4,87 +4,116 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>Detalles de Usuario</h2>
 
-<div>
-    <h4>User</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.City.Name)
-        </dt>
+<div class="row">
+    <div class="col-md-offset-1 col-md-7">
+        <div class="row">
+            <div class="col-md-5">
+                <dl>
+                    <dd>
+                        <span style="font-family: verdana; font-size: 20px; font-weight: bold; font-style: italic; background: #ffffcc; color: green; line-height: 18px">
+                            @Html.DisplayFor(model => model.FullName)
+                        </span>
+                    </dd>
+                </dl>
+                <dl>
+                    <dd>
+                        @if (!string.IsNullOrEmpty(Model.Photo))
+                        {
+                            <img src="@Url.Content(Model.Photo)" class="media-object dp img-circle" alt="Image" style="width:250px; height:250px;max-width:100%; height:auto;" />
+                        }
+                    </dd>
+                </dl>
+            </div>
+            <div class="col-md-offset-1 col-md-4">
+                <dl>
+                    <dt>
+                        @Html.DisplayFor(model => model.Company.Name)
+                    </dt>
+                    <dt>
+                        @if (!string.IsNullOrEmpty(Model.Company.Logo))
+                        {
+                            <img src="@Url.Content(Model.Company.Logo)"  alt="Image" style="width:150px;height:150px;max-width: 100%; height: auto;" />
+                        }
+                    </dt>
+                </dl>
+            </div>
+        </div>
+    </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.City.Name)
-        </dd>
+    <div class="col-md-pull-1 col-md-3">
+        <h3>Datos de Usuario</h3>
+        @*<span style="font-family: verdana; font-size: 15px; font-weight: bold;"></span>*@
+        <hr />
+        <dl class="dl-horizontal">
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Company.Name)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Company.Name)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.FirstName)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Departament.Name)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.LastName)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Departament.Name)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.LastName)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.UserName)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Phone)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.UserName)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Phone)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.FirstName)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Address)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.FirstName)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Address)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.City.Name)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.City.Name)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Company.Name)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Phone)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Company.Name)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Phone)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Departament.Name)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Address)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Departament.Name)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Address)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.UserName)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Photo)
-        </dt>
+            <dd>
+                @Html.DisplayFor(model => model.UserName)
+            </dd>
+        </dl>
+        <hr />
+        <a href="@Url.Action("Index" , "Users")" class="btn btn-warning"><i class="fa fa-backward"></i> Regresar</a>
+        <a href="@Url.Action("Edit" , "Users",  new { id = Model.UserId })" class="btn btn-primary"><i class="fa fa-edit fa-lg"></i> Editar</a>
 
-        <dd>
-            @Html.DisplayFor(model => model.Photo)
-        </dd>
-
-    </dl>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.UserId }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

@@ -1,4 +1,4 @@
-﻿@model ECommerce.Models.City
+﻿@model ECommerce.Models.Tax
 
 @{
     ViewBag.Title = "Delete";
@@ -8,24 +8,31 @@
 
 <h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>City</h4>
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <h4>Tax</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Department.Name)
+            @Html.DisplayNameFor(model => model.Company.Name)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Department.Name)
+            @Html.DisplayFor(model => model.Company.Name)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.Description)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Name)
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rate)
         </dd>
 
     </dl>

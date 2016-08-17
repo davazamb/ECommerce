@@ -10,6 +10,7 @@ using ECommerce.Models;
 
 namespace ECommerce.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class DepartamentsController : Controller
     {
         private ECommerceContext db = new ECommerceContext();
@@ -17,7 +18,7 @@ namespace ECommerce.Controllers
         // GET: Departaments
         public ActionResult Index()
         {
-            return View(db.Departaments.ToList());
+            return View(db.Departaments.OrderBy(d => d.Name).ToList());
         }
 
         // GET: Departaments/Details/5

@@ -14,11 +14,12 @@ namespace ECommerce.Models
         [Required(ErrorMessage = "El Campo {0} es requerido")]
         [MaxLength(50, ErrorMessage = "El Campo {0} debe tener maximo {1} Caracter de longitud")]
         [Display(Name = "Ciudad")]
-        [Index("City_Name_Index", 2, IsUnique = true)]
+        [Index("City_Departament_Name_Index", 2, IsUnique = true)]
         public string Name { get; set; }
         [Required(ErrorMessage = "El Campo {0} es requerido")]
         [Range(1, double.MaxValue, ErrorMessage = "You must select a {0}")]
-        [Index("City_Name_Index", 1, IsUnique = true)]
+        [Index("City_Departament_Name_Index", 1, IsUnique = true)]
+        [Display(Name = "Estado")]
         public int DepartamentId { get; set; }
 
         //Su padre

@@ -11,6 +11,7 @@ using ECommerce.Classes;
 
 namespace ECommerce.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class CitiesController : Controller
     {
         private ECommerceContext db = new ECommerceContext();
@@ -19,7 +20,7 @@ namespace ECommerce.Controllers
         public ActionResult Index()
         {
             var cities = db.Cities.Include(c => c.Department);
-            return View(cities.ToList());
+            return View(cities.OrderBy(ct => ct.Name).ToList());
         }
 
         // GET: Cities/Details/5

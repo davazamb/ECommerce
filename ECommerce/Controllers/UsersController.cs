@@ -11,6 +11,7 @@ using ECommerce.Classes;
 
 namespace ECommerce.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class UsersController : Controller
     {
         private ECommerceContext db = new ECommerceContext();
@@ -19,7 +20,7 @@ namespace ECommerce.Controllers
         public ActionResult Index()
         {
             var users = db.Users.Include(u => u.City).Include(u => u.Company).Include(u => u.Departament);
-            return View(users.ToList());
+            return View(users.OrderBy(u => u.FirstName).ToList());
         }
 
         // GET: Users/Details/5
@@ -119,10 +120,26 @@ namespace ECommerce.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "UserId,UserName,FirstName,LastName,Phone,Address,Photo,CompanyId,DepartamentId,CityId")] User user)
+        public ActionResult Edit(User user)
         {
             if (ModelState.IsValid)
             {
+                if (user.PhotoFile != null)
+                {
+                    var folder = "~/Content/Users";
+                    var file = string.Format("{0}.jpg", user.UserId);
+                    var response = FilesHelper.UploadPhoto(user.PhotoFile, folder, file);
+                    user.Photo = string.Format("{0}/{1}", folder, file);
+                }
+                //se intancia otro contexto de datos para usar en el mismo metodo
+                var db2 = new ECommerceContext();
+                var currentUser = db2.Users.Find(user.UserId);
+                if (currentUser.UserName != user.UserName)
+                {
+                    UsersHelper.UpdateUserName(currentUser.UserName, user.UserName);
+                }
+                db2.Dispose();
+
                 db.Entry(user).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -140,7 +157,7 @@ namespace ECommerce.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.Users.Find(id);
+            var user = db.Users.Find(id);
             if (user == null)
             {
                 return HttpNotFound();
@@ -153,15 +170,33 @@ namespace ECommerce.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            User user = db.Users.Find(id);
+            var user = db.Users.Find(id);
             db.Users.Remove(user);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            try
+            {
+                db.SaveChanges();
+                UsersHelper.DeleteUser(user.UserName);
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null &&
+                    ex.InnerException.InnerException != null &&
+                    ex.InnerException.InnerException.Message.Contains("REFERENCE"))
+                {
+                    ModelState.AddModelError(string.Empty, "El registro no se puede eliminar porque tiene registros relacionados");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, ex.Message);
+                }
+            }
+            return View(user);
         }
         public JsonResult GetCities(int departamentId)
         {
             db.Configuration.ProxyCreationEnabled = false;
-            var cities = db.Cities.Where(c => c.DepartamentId == departamentId);
+            var cities = db.Cities.Where(c => c.DepartamentId == departamentId).OrderBy(c => c.Name);
             return Json(cities);
         }
         protected override void Dispose(bool disposing)
