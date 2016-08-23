@@ -82,19 +82,6 @@
                 <div class="col-md-offset-1 col-md-2">
                     <dl>
                         <dt>
-                            @Html.DisplayFor(model => model.Company.Name)
-                        </dt>
-                        <dt>
-                            @if (!string.IsNullOrEmpty(Model.Company.Logo))
-                {
-                                <img src="@Url.Content(Model.Company.Logo)" alt="Image" style="width:100px;height:100px;max-width: 100%; height: auto;" />
-                            }
-                        </dt>
-                    </dl>
-                </div>
-                <div class="col-md-offset-1 col-md-2">
-                    <dl>
-                        <dt>
                             @Html.DisplayFor(model => model.FullName)
                         </dt>
                         <dt>
@@ -105,6 +92,24 @@
                         </dt>
                     </dl>
                 </div>
+
+                <div class="col-md-offset-1 col-md-2">
+                    <dl>
+                        <dt>
+                            @Html.DisplayFor(model => model.Company.Name)
+                        </dt>
+                        <dt><br /></dt>
+                        <dt>
+                            @if (!string.IsNullOrEmpty(Model.Company.Logo))
+                {
+                                <img src="@Url.Content(Model.Company.Logo)" alt="Image" style="width:100px;height:100px;max-width: 100%; height: auto;" />
+                            }
+                        </dt>
+
+
+                    </dl>
+                </div>
+
             </div>
             <div class="form-horizontal">
                 <div class="form-group">

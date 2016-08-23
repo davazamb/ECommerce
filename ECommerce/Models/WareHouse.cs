@@ -7,15 +7,21 @@ using System.Web;
 
 namespace ECommerce.Models
 {
-    public class Company
+    public class WareHouse
     {
         [Key]
+        public int WareHouseId { get; set; }
+        [Required(ErrorMessage = "El Campo {0} es requerido")]
+        [Range(1, double.MaxValue, ErrorMessage = "Debe seleccionar un {0}")]
+        [Index("WareHouse_CompanyId_Name_Index", 1, IsUnique = true)]
+        [Display(Name = "Empresa")]
         public int CompanyId { get; set; }
         [Required(ErrorMessage = "El Campo {0} es requerido")]
         [MaxLength(50, ErrorMessage = "El Campo {0} debe tener maximo {1} Caracter de longitud")]
-        [Display(Name = "Empresa")]
-        [Index("Company_Name_Index", IsUnique = true)]
-        public string Name { get; set; }
+        [Display(Name = "Bodega")]
+        [Index("WareHouse_CompanyId_Name_Index", 2, IsUnique = true)]
+        public string Name { get; set; }       
+
         [Required(ErrorMessage = "El Campo {0} es requerido")]
         [MaxLength(20, ErrorMessage = "El Campo {0} debe tener maximo {1} Caracter de longitud")]
         [DataType(DataType.PhoneNumber)]
@@ -25,12 +31,7 @@ namespace ECommerce.Models
         [MaxLength(150, ErrorMessage = "El Campo {0} debe tener maximo {1} Caracter de longitud")]
         [Display(Name = "Dirección")]
         public string Address { get; set; }
-        [DataType(DataType.ImageUrl)]
-        public string Logo { get; set; }
-        [NotMapped]
-        [Display(Name = "Logo")]
-        public HttpPostedFileBase LogoFile { get; set; }
-
+       
         [Required(ErrorMessage = "El Campo {0} es requerido")]
         [Range(1, double.MaxValue, ErrorMessage = "Debe seleccionar un {0}")]
         [Display(Name = "Estado")]
@@ -40,15 +41,11 @@ namespace ECommerce.Models
         [Display(Name = "Ciudad")]
         public int CityId { get; set; }
 
-        //Esta es lado de varios de la relacion su Padre
         public virtual Departament Departament { get; set; }
         public virtual City City { get; set; }
-        public virtual ICollection<User> Users { get; set; }
-        public virtual ICollection<Category> Categories { get; set; }
-        public virtual ICollection<Tax> Taxes { get; set; }
-        public virtual ICollection<Product> Products { get; set; }
-        public virtual ICollection<WareHouse> WareHouses { get; set; }
-        public virtual ICollection<Customer> Customers { get; set; }
-        public virtual ICollection<Order> Orders { get; set; }
+        public virtual Company Company { get; set; }
+
+        public virtual ICollection<Inventory> Inventories { get; set; }
+
     }
 }

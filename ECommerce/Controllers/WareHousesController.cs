@@ -11,83 +11,64 @@ using ECommerce.Classes;
 
 namespace ECommerce.Controllers
 {
-    [Authorize(Roles ="User")]
-    public class ProductsController : Controller
+    [Authorize(Roles = "User")]
+    public class WareHousesController : Controller
     {
         private ECommerceContext db = new ECommerceContext();
 
-        // GET: Products
+        // GET: WareHouses
         public ActionResult Index()
         {
-            //busca el usuario logueado
             var user = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
-            var products = db.Products
-                .Include(p => p.Category)
-                .Include(p => p.Company)
-                .Include(p => p.Tax).Where(p => p.CompanyId == user.CompanyId);
-            return View(products.ToList());
+            var wareHouses = db.WareHouses.Where(w => w.CompanyId == user.CompanyId).Include(w => w.City).Include(w => w.Departament);
+            return View(wareHouses.ToList());
         }
 
-        // GET: Products/Details/5
+        // GET: WareHouses/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var product = db.Products.Find(id);
-            if (product == null)
+            var wareHouse = db.WareHouses.Find(id);
+            if (wareHouse == null)
             {
                 return HttpNotFound();
             }
-            return View(product);
+            return View(wareHouse);
         }
 
-        // GET: Products/Create
+        // GET: WareHouses/Create
         public ActionResult Create()
         {
-            //busca el usuario logueado
+            ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name");
+            ViewBag.DepartamentId = new SelectList(CombosHelper.GetDepartments(), "DepartamentId", "Name");
             var user = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
-            ViewBag.CategoryId = new SelectList(CombosHelper.GetCategories(user.CompanyId), "CategoryId", "Description");
-            ViewBag.TaxId = new SelectList(CombosHelper.GetTaxes(user.CompanyId), "TaxId", "Description");
-            var product = new Product { CompanyId = user.CompanyId, };
-            return View(product);
+            var warehouse = new WareHouse { CompanyId = user.CompanyId, };
+            return View(warehouse);
         }
 
-        // POST: Products/Create
+        // POST: WareHouses/Create
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Product product)
+        public ActionResult Create(WareHouse wareHouse)
         {
-            var user = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
             if (ModelState.IsValid)
             {
-                db.Products.Add(product);
+                db.WareHouses.Add(wareHouse);
                 try
                 {
                     db.SaveChanges();
-                    if (product.ImageFile != null)
-                    {
-                        var folder = "~/Content/Products";
-                        var file = string.Format("{0}.jpg", product.ProductId);
-                        var response = FilesHelper.UploadPhoto(product.ImageFile, folder, file);
-                        if (response)
-                        {
-                            var pic = string.Format("{0}/{1}", folder, file);
-                            product.Image = pic;
-                            db.Entry(product).State = EntityState.Modified;
-                            db.SaveChanges();
-                        }
-                    }
                     return RedirectToAction("Index");
                 }
                 catch (Exception ex)
                 {
                     if (ex.InnerException != null &&
-                        ex.InnerException.InnerException != null &&
-                        ex.InnerException.InnerException.Message.Contains("_Index"))
+                    ex.InnerException.InnerException != null &&
+                    ex.InnerException.InnerException.Message.Contains("_Index"))
                     {
                         ModelState.AddModelError(string.Empty, "Hay un registro con el mismo valor");
                     }
@@ -96,51 +77,40 @@ namespace ECommerce.Controllers
                         ModelState.AddModelError(string.Empty, ex.Message);
                     }
                 }
-
             }
 
-            ViewBag.CategoryId = new SelectList(CombosHelper.GetCategories(user.CompanyId), "CategoryId", "Description", product.CategoryId);
-            ViewBag.TaxId = new SelectList(CombosHelper.GetTaxes(user.CompanyId), "TaxId", "Description", product.TaxId);
-            return View(product);
+            ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name", wareHouse.CityId);
+            ViewBag.DepartamentId = new SelectList(CombosHelper.GetDepartments(), "DepartamentId", "Name", wareHouse.DepartamentId);
+            return View(wareHouse);
         }
 
-        // GET: Products/Edit/5
+        // GET: WareHouses/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var product = db.Products.Find(id);
-            if (product == null)
+            var wareHouse = db.WareHouses.Find(id);
+            if (wareHouse == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.CategoryId = new SelectList(CombosHelper.GetCategories(product.CompanyId), "CategoryId", "Description", product.CategoryId);
-            ViewBag.TaxId = new SelectList(CombosHelper.GetTaxes(product.CompanyId), "TaxId", "Description", product.TaxId);
-            return View(product);
+            ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name", wareHouse.CityId);
+            ViewBag.DepartamentId = new SelectList(CombosHelper.GetDepartments(), "DepartamentId", "Name", wareHouse.DepartamentId);
+            return View(wareHouse);
         }
 
-        // POST: Products/Edit/5
+        // POST: WareHouses/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Product product)
+        public ActionResult Edit(WareHouse wareHouse)
         {
             if (ModelState.IsValid)
             {
-                if (product.ImageFile != null)
-                {
-                    var file = string.Format("{0}.jpg", product.ProductId);
-                    var folder = "~/Content/Products";
-                    var response = FilesHelper.UploadPhoto(product.ImageFile, folder, file);
-                    if (response)
-                    {
-                        product.Image = string.Format("{0}/{1}", folder, file);                         
-                    }
-                }
-                db.Entry(product).State = EntityState.Modified;
+                db.Entry(wareHouse).State = EntityState.Modified;
                 try
                 {
                     db.SaveChanges();
@@ -149,8 +119,8 @@ namespace ECommerce.Controllers
                 catch (Exception ex)
                 {
                     if (ex.InnerException != null &&
-                        ex.InnerException.InnerException != null &&
-                        ex.InnerException.InnerException.Message.Contains("_Index"))
+                    ex.InnerException.InnerException != null &&
+                    ex.InnerException.InnerException.Message.Contains("_Index"))
                     {
                         ModelState.AddModelError(string.Empty, "Hay un registro con el mismo valor");
                     }
@@ -160,33 +130,33 @@ namespace ECommerce.Controllers
                     }
                 }
             }
-            ViewBag.CategoryId = new SelectList(CombosHelper.GetCategories(product.CompanyId), "CategoryId", "Description", product.CategoryId);
-            ViewBag.TaxId = new SelectList(CombosHelper.GetTaxes(product.CompanyId), "TaxId", "Description", product.TaxId);
-            return View(product);
+            ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name", wareHouse.CityId);
+            ViewBag.DepartamentId = new SelectList(CombosHelper.GetDepartments(), "DepartamentId", "Name", wareHouse.DepartamentId);
+            return View(wareHouse);
         }
 
-        // GET: Products/Delete/5
+        // GET: WareHouses/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var product = db.Products.Find(id);
-            if (product == null)
+            var wareHouse = db.WareHouses.Find(id);
+            if (wareHouse == null)
             {
                 return HttpNotFound();
             }
-            return View(product);
+            return View(wareHouse);
         }
 
-        // POST: Products/Delete/5
+        // POST: WareHouses/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            var product = db.Products.Find(id);
-            db.Products.Remove(product);
+            WareHouse wareHouse = db.WareHouses.Find(id);
+            db.WareHouses.Remove(wareHouse);
             try
             {
                 db.SaveChanges();
@@ -205,7 +175,7 @@ namespace ECommerce.Controllers
                     ModelState.AddModelError(string.Empty, ex.Message);
                 }
             }
-            return View(product);
+            return View(wareHouse);
         }
 
         protected override void Dispose(bool disposing)

@@ -4,38 +4,49 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Detalles de Usuario</h2>
-
+<h2>
+    <span style="font-family: verdana; font-size: 30px; font-weight: bold; font-style: italic; color: darkblue; line-height: 18px">
+        @Html.DisplayFor(model => model.FullName)
+    </span>
+</h2>
+<hr />
 <div class="row">
     <div class="col-md-offset-1 col-md-7">
         <div class="row">
             <div class="col-md-5">
                 <dl>
                     <dd>
-                        <span style="font-family: verdana; font-size: 20px; font-weight: bold; font-style: italic; background: #ffffcc; color: green; line-height: 18px">
-                            @Html.DisplayFor(model => model.FullName)
-                        </span>
+
                     </dd>
                 </dl>
                 <dl>
                     <dd>
-                        @if (!string.IsNullOrEmpty(Model.Photo))
-                        {
-                            <img src="@Url.Content(Model.Photo)" class="media-object dp img-circle" alt="Image" style="width:250px; height:250px;max-width:100%; height:auto;" />
-                        }
+                            @if (!string.IsNullOrEmpty(Model.Photo))
+                            {
+                                <img src="@Url.Content(Model.Photo)" class="media-object dp img-circle" alt="Image" style="width:250px; height:250px;max-width:100%; height:auto;" />
+                            }
+                            else
+                            {
+                                <h4 class="text-center">No hay foto registrada.</h4>
+                            }
                     </dd>
                 </dl>
             </div>
             <div class="col-md-offset-1 col-md-4">
+                <br />
+                <br />
+                <p></p>
                 <dl>
-                    <dt>
-                        @Html.DisplayFor(model => model.Company.Name)
-                    </dt>
                     <dt>
                         @if (!string.IsNullOrEmpty(Model.Company.Logo))
                         {
-                            <img src="@Url.Content(Model.Company.Logo)"  alt="Image" style="width:150px;height:150px;max-width: 100%; height: auto;" />
+                            <img src="@Url.Content(Model.Company.Logo)" alt="Image" style="width:150px;height:150px;max-width: 100%; height: auto;" />
                         }
+                    </dt>
+                    <dt><br /></dt>
+                    <dt class="text-center">
+                        <strong>@Html.DisplayFor(model => model.Company.Name)</strong>
+
                     </dt>
                 </dl>
             </div>

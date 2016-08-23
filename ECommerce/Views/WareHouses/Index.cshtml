@@ -1,0 +1,68 @@
+﻿@model IEnumerable<ECommerce.Models.WareHouse>
+
+@{
+    ViewBag.Title = "Bodegas";
+}
+
+<h2>Bodegas</h2>
+
+<p>
+    @Html.ActionLink("Crear Nuevo", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.City.Name)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Departament.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Phone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.City.Name)
+        </td>
+
+        <td>
+            @Html.DisplayFor(modelItem => item.Departament.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Phone)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Address)
+        </td>
+        <td>
+            <div class="dropdown">
+                <button id="editar-101" style="" class="btn btn btn-primary btn-xs" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-cog"></i> <span class="caret"></span></button>
+                <ul class="dropdown-menu" aria-labelledby="editar-101">
+                    <li><a href="@Url.Action("Edit" , "Warehouses",  new { id = item.WareHouseId })">Editar</a></li>
+                    <li><a href="#">Eliminar</a></li>
+                </ul>
+            </div>
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.WareHouseId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.WareHouseId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.WareHouseId })
+        </td>
+    </tr>
+}
+
+</table>

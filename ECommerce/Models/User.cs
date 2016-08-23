@@ -53,6 +53,7 @@ namespace ECommerce.Models
         [Display(Name = "Usuario")]
         public string FullName { get { return string.Format("{0} {1}", FirstName, LastName); } }
         [NotMapped]
+        [Display(Name = "Foto")]
         public HttpPostedFileBase PhotoFile { get; set; }
         //Esta es lado de varios de la relacion su Padre
         public virtual Departament Departament { get; set; }

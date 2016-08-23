@@ -43,19 +43,21 @@ namespace ECommerce.Models
         [DataType(DataType.ImageUrl)]
         public string Image { get; set; }
         [NotMapped]
+        [Display(Name = "Imagen")]
         public HttpPostedFileBase ImageFile { get; set; }
         [Display(Name = "Notas")]
         [DataType(DataType.MultilineText)]
         public string Remarks { get; set; }
-        //Modificar la configuracion de region el formato de numero a punto, en el windows 
-        [Required(ErrorMessage = "El Campo {0} es requerido")]
-        [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:P2}")]
-        [Range(0, 1, ErrorMessage = "Debe seleccionar una {0} entre {1} y {2}")]
-        [Display(Name = "Tasa")]
-        public double Rate { get; set; }
-
+        //Campo de solo lectura de calculo
+        [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:N2}")]
+        public double Stock { get { return Inventories.Sum(i => i.Stock); } }
         public virtual Company Company { get; set; }
         public virtual Category Category { get; set; }
         public virtual Tax Tax { get; set; }
+
+        public virtual ICollection<Inventory> Inventories { get; set; }
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+        public virtual ICollection<OrderDetailTmp> OrderDetailTmps { get; set; }
+
     }
 }
