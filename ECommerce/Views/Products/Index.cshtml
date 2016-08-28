@@ -7,9 +7,62 @@
 <h2>Productos</h2>
 
 <p>
-    @Html.ActionLink("Crear Nuevo", "Create")
+    <a href="@Url.Action("Create" , "Products")" class="btn btn-success"><i class="fa fa-plus fa-lg"></i> Agregar</a>
 </p>
-<table class="table">
+<div class="row margin-b-2">
+    @foreach (var item in Model)
+            {
+        <dl class="col-sm-6 col-md-3">
+            <dd class="text-center">
+                <a href="@Url.Action("Details" , "Products",  new { id = item.ProductId })">
+                    @Html.DisplayFor(modelItem => item.Description)
+                </a>
+            </dd>
+            <dd>
+                <div class="row text-center">
+                    <div>
+                        @if (!string.IsNullOrEmpty(item.Image))
+                        {
+                            <a href="@Url.Action("Details" , "Products",  new { id = item.ProductId })">
+                                <img src="@Url.Content(item.Image)" alt="Image" style="width:150px;height:150px;" />
+                            </a>
+                        }
+                        else
+                        {
+                            <h4 style="color:darkred">No hay Foto</h4>
+                        }
+                    </div>
+                </div>
+
+            </dd>
+            <dd class="text-center">
+                @Html.DisplayFor(modelItem => item.BarCode)
+            </dd>
+            <dd class="text-center">                
+            </dd>
+            <dd class="text-center">
+                @Html.DisplayFor(modelItem => item.Price)
+            </dd>
+            <dd class="text-center">
+                @Html.DisplayFor(modelItem => item.Stock)
+            </dd>
+            <dd><p></p></dd>
+            <dd class="text-center">
+                <a href="@Url.Action("Edit" , "Products",  new { id = item.ProductId })" class="btn btn-primary"><i class="fa fa-edit fa-lg"></i></a>|
+                <a href="@Url.Action("Details" , "Products",  new { id = item.ProductId })" class="btn btn-warning"><i class="fa fa-eye fa-lg"></i></a>|
+                <a href="@Url.Action("Delete" , "Products",  new { id = item.ProductId })" class="btn btn-danger"><i class="fa fa-trash-o fa-lg"></i></a>
+            </dd>
+
+        </dl>
+    }
+</div>
+
+
+
+
+
+
+@*<table class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Category.Description)
@@ -80,4 +133,4 @@
     </tr>
 }
 
-</table>
+</table>*@

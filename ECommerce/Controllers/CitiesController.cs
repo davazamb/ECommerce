@@ -58,24 +58,12 @@ namespace ECommerce.Controllers
             if (ModelState.IsValid)
             {
                 db.Cities.Add(city);
-                try
+                var response = DBHelper.SaveChanges(db);
+                if (response.Succeeded)
                 {
-                    db.SaveChanges();
                     return RedirectToAction("Index");
                 }
-                catch (Exception ex)
-                {
-                    if (ex.InnerException != null &&
-                        ex.InnerException.InnerException != null &&
-                        ex.InnerException.InnerException.Message.Contains("_Index"))
-                    {
-                        ModelState.AddModelError(string.Empty, "Hay un registro con el mismo valor");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError(string.Empty, ex.Message);
-                    }
-                }
+                ModelState.AddModelError(string.Empty, response.Message);
             }
 
             ViewBag.DepartamentId = new SelectList(
@@ -116,24 +104,12 @@ namespace ECommerce.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(city).State = EntityState.Modified;
-                try
+                var response = DBHelper.SaveChanges(db);
+                if (response.Succeeded)
                 {
-                    db.SaveChanges();
                     return RedirectToAction("Index");
                 }
-                catch (Exception ex)
-                {
-                    if (ex.InnerException != null &&
-                    ex.InnerException.InnerException != null &&
-                    ex.InnerException.InnerException.Message.Contains("_Index"))
-                    {
-                        ModelState.AddModelError(string.Empty, "Hay un registro con el mismo valor");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError(string.Empty, ex.Message);
-                    }
-                }
+                ModelState.AddModelError(string.Empty, response.Message);
             }
             ViewBag.DepartamentId = new SelectList(
                 CombosHelper.GetDepartments(),
@@ -166,24 +142,12 @@ namespace ECommerce.Controllers
             City city = db.Cities.Find(id);
             db.Cities.Remove(city);
             //Mensaje de adverntecnia al eliminar en cascada
-            try
+            var response = DBHelper.SaveChanges(db);
+            if (response.Succeeded)
             {
-                db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            catch (Exception ex)
-            {
-                if (ex.InnerException != null &&
-                    ex.InnerException.InnerException != null &&
-                    ex.InnerException.InnerException.Message.Contains("REFERENCE"))
-                {
-                    ModelState.AddModelError(string.Empty, "El registro no se puede eliminar porque tiene registros relacionados");
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, ex.Message);
-                }
-            }
+            ModelState.AddModelError(string.Empty, response.Message);
             return View(city);
         }
 

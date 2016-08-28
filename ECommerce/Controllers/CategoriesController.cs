@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using ECommerce.Models;
+using ECommerce.Classes;
 
 namespace ECommerce.Controllers
 {
@@ -62,24 +63,12 @@ namespace ECommerce.Controllers
             if (ModelState.IsValid)
             {
                 db.Categories.Add(category);
-                try
+                var response = DBHelper.SaveChanges(db);
+                if (response.Succeeded)
                 {
-                    db.SaveChanges();
                     return RedirectToAction("Index");
                 }
-                catch (Exception ex)
-                {
-                    if (ex.InnerException != null &&
-                        ex.InnerException.InnerException != null &&
-                        ex.InnerException.InnerException.Message.Contains("_Index"))
-                    {
-                        ModelState.AddModelError(string.Empty, "Hay un registro con el mismo valor");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError(string.Empty, ex.Message);
-                    }
-                }
+                ModelState.AddModelError(string.Empty, response.Message);                
             }
 
             ViewBag.CompanyId = new SelectList(db.Companies, "CompanyId", "Name", category.CompanyId);
@@ -111,8 +100,12 @@ namespace ECommerce.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(category).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                var response = DBHelper.SaveChanges(db);
+                if (response.Succeeded)
+                {
+                    return RedirectToAction("Index");
+                }
+                ModelState.AddModelError(string.Empty, response.Message);
             }
             ViewBag.CompanyId = new SelectList(db.Companies, "CompanyId", "Name", category.CompanyId);
             return View(category);
@@ -140,24 +133,12 @@ namespace ECommerce.Controllers
         {
             Category category = db.Categories.Find(id);
             db.Categories.Remove(category);
-            try
+            var response = DBHelper.SaveChanges(db);
+            if (response.Succeeded)
             {
-                db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            catch (Exception ex)
-            {
-                if (ex.InnerException != null &&
-                    ex.InnerException.InnerException != null &&
-                    ex.InnerException.InnerException.Message.Contains("REFERENCE"))
-                {
-                    ModelState.AddModelError(string.Empty, "El registro no se puede eliminar porque tiene registros relacionados");
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, ex.Message);
-                }
-            }
+            ModelState.AddModelError(string.Empty, response.Message);
             return View(category);
         }
 

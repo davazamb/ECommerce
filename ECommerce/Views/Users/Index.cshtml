@@ -24,9 +24,13 @@
                     <div>
                         @if (!string.IsNullOrEmpty(item.Photo))
                         {
-                            <a href="@Url.Action("Details" , "Users",  new { id = item.UserId })">
+                            <a href="@Url.Action("Details", "Users", new { id = item.UserId })">
                                 <img src="@Url.Content(item.Photo)" alt="Image" style="width:150px;height:150px;" />
                             </a>
+                        }
+                        else
+                        {
+                            <h4 style="color:darkred">No hay Foto</h4>
                         }
                     </div>
                 </div>

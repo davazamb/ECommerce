@@ -42,7 +42,7 @@ namespace ECommerce.Controllers
         // GET: Customers/Create
         public ActionResult Create()
         {
-            ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name");
+            ViewBag.CityId = new SelectList(CombosHelper.GetCities(0), "CityId", "Name");
             ViewBag.DepartamentId = new SelectList(CombosHelper.GetDepartments(), "DepartamentId", "Name");
             var user = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
             var customer = new Customer { CompanyId = user.CompanyId, };
@@ -59,12 +59,16 @@ namespace ECommerce.Controllers
             if (ModelState.IsValid)
             {
                 db.Customers.Add(customer);
-                db.SaveChanges();
-                UsersHelper.CreateUserASP(customer.UserName, "Customer");
-                return RedirectToAction("Index");
+                var response = DBHelper.SaveChanges(db);
+                if(response.Succeeded)
+                {
+                    UsersHelper.CreateUserASP(customer.UserName, "Customer");
+                    return RedirectToAction("Index");
+                }
+                ModelState.AddModelError(string.Empty, response.Message);
             }
 
-            ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name", customer.CityId);
+            ViewBag.CityId = new SelectList(CombosHelper.GetCities(customer.DepartamentId), "CityId", "Name", customer.CityId);
             ViewBag.DepartamentId = new SelectList(CombosHelper.GetDepartments(), "DepartamentId", "Name", customer.DepartamentId);
 
             return View(customer);
@@ -82,7 +86,7 @@ namespace ECommerce.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name", customer.CityId);
+            ViewBag.CityId = new SelectList(CombosHelper.GetCities(customer.DepartamentId), "CityId", "Name", customer.CityId);
             ViewBag.DepartamentId = new SelectList(CombosHelper.GetDepartments(), "DepartamentId", "Name", customer.DepartamentId);
 
             return View(customer);
@@ -98,12 +102,17 @@ namespace ECommerce.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(customer).State = EntityState.Modified;
-                db.SaveChanges();
-                //TODO: validar el cambio del email por cliente
-                return RedirectToAction("Index");
+                var response = DBHelper.SaveChanges(db);
+                if (response.Succeeded)
+                {
+                    //UsersHelper.CreateUserASP(customer.UserName, "Customer");
+                    //TODO: validar el cambio del email por cliente
+                    return RedirectToAction("Index");
+                }
+                ModelState.AddModelError(string.Empty, response.Message);
 
             }
-            ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name", customer.CityId);
+            ViewBag.CityId = new SelectList(CombosHelper.GetCities(customer.DepartamentId), "CityId", "Name", customer.CityId);
             ViewBag.DepartamentId = new SelectList(CombosHelper.GetDepartments(), "DepartamentId", "Name", customer.DepartamentId);
 
             return View(customer);
@@ -131,9 +140,14 @@ namespace ECommerce.Controllers
         {
             Customer customer = db.Customers.Find(id);
             db.Customers.Remove(customer);
-            db.SaveChanges();
-            UsersHelper.DeleteUser(customer.UserName);
-            return RedirectToAction("Index");
+            var response = DBHelper.SaveChanges(db);
+            if (response.Succeeded)
+            {
+                UsersHelper.DeleteUser(customer.UserName);
+                return RedirectToAction("Index");
+            }
+            ModelState.AddModelError(string.Empty, response.Message);
+            return View(customer);
         }
 
         protected override void Dispose(bool disposing)

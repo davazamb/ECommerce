@@ -49,6 +49,7 @@ namespace ECommerce.Models
         [DataType(DataType.MultilineText)]
         public string Remarks { get; set; }
         //Campo de solo lectura de calculo
+        //TODO:Error de valor nulo
         [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:N2}")]
         public double Stock { get { return Inventories.Sum(i => i.Stock); } }
         public virtual Company Company { get; set; }

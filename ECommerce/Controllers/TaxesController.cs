@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using ECommerce.Models;
+using ECommerce.Classes;
 
 namespace ECommerce.Controllers
 {
@@ -131,8 +132,13 @@ namespace ECommerce.Controllers
         {
             Tax tax = db.Taxes.Find(id);
             db.Taxes.Remove(tax);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            var response = DBHelper.SaveChanges(db);
+            if (response.Succeeded)
+            {
+                return RedirectToAction("Index");
+            }
+            ModelState.AddModelError(string.Empty, response.Message);
+            return View(tax);
         }
 
         protected override void Dispose(bool disposing)

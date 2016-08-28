@@ -42,7 +42,7 @@ namespace ECommerce.Controllers
         // GET: WareHouses/Create
         public ActionResult Create()
         {
-            ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name");
+            ViewBag.CityId = new SelectList(CombosHelper.GetCities(0), "CityId", "Name");
             ViewBag.DepartamentId = new SelectList(CombosHelper.GetDepartments(), "DepartamentId", "Name");
             var user = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
             var warehouse = new WareHouse { CompanyId = user.CompanyId, };
@@ -79,7 +79,7 @@ namespace ECommerce.Controllers
                 }
             }
 
-            ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name", wareHouse.CityId);
+            ViewBag.CityId = new SelectList(CombosHelper.GetCities(wareHouse.DepartamentId), "CityId", "Name", wareHouse.CityId);
             ViewBag.DepartamentId = new SelectList(CombosHelper.GetDepartments(), "DepartamentId", "Name", wareHouse.DepartamentId);
             return View(wareHouse);
         }
@@ -96,7 +96,7 @@ namespace ECommerce.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name", wareHouse.CityId);
+            ViewBag.CityId = new SelectList(CombosHelper.GetCities(wareHouse.DepartamentId), "CityId", "Name", wareHouse.CityId);
             ViewBag.DepartamentId = new SelectList(CombosHelper.GetDepartments(), "DepartamentId", "Name", wareHouse.DepartamentId);
             return View(wareHouse);
         }
@@ -130,7 +130,7 @@ namespace ECommerce.Controllers
                     }
                 }
             }
-            ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name", wareHouse.CityId);
+            ViewBag.CityId = new SelectList(CombosHelper.GetCities(wareHouse.DepartamentId), "CityId", "Name", wareHouse.CityId);
             ViewBag.DepartamentId = new SelectList(CombosHelper.GetDepartments(), "DepartamentId", "Name", wareHouse.DepartamentId);
             return View(wareHouse);
         }
@@ -157,24 +157,12 @@ namespace ECommerce.Controllers
         {
             WareHouse wareHouse = db.WareHouses.Find(id);
             db.WareHouses.Remove(wareHouse);
-            try
+            var response = DBHelper.SaveChanges(db);
+            if (response.Succeeded)
             {
-                db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            catch (Exception ex)
-            {
-                if (ex.InnerException != null &&
-                    ex.InnerException.InnerException != null &&
-                    ex.InnerException.InnerException.Message.Contains("REFERENCE"))
-                {
-                    ModelState.AddModelError(string.Empty, "El registro no se puede eliminar porque tiene registros relacionados");
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, ex.Message);
-                }
-            }
+            ModelState.AddModelError(string.Empty, response.Message);
             return View(wareHouse);
         }
 

@@ -1,17 +1,13 @@
 ﻿@model ECommerce.Models.AddProductView
 
-@{
-    ViewBag.Title = "AddProduct";
-}
 
-<h2>Agregar Producto</h2>
+
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <h4>Orden</h4>
-        <hr />
+
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
             @Html.LabelFor(model => model.ProductId, htmlAttributes: new { @class = "control-label col-md-2" })

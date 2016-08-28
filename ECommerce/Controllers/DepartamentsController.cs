@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using ECommerce.Models;
+using ECommerce.Classes;
 
 namespace ECommerce.Controllers
 {
@@ -144,24 +145,12 @@ namespace ECommerce.Controllers
             Departament departament = db.Departaments.Find(id);
             db.Departaments.Remove(departament);
             //Mensaje de adverntecnia al eliminar en cascada
-            try
+            var response = DBHelper.SaveChanges(db);
+            if (response.Succeeded)
             {
-                db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            catch (Exception ex)
-            {
-                if (ex.InnerException != null &&
-                    ex.InnerException.InnerException != null &&
-                    ex.InnerException.InnerException.Message.Contains("REFERENCE"))
-                {
-                    ModelState.AddModelError(string.Empty, "El registro no se puede eliminar porque tiene registros relacionados");
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, ex.Message);
-                }
-            }
+            ModelState.AddModelError(string.Empty, response.Message);
             return View(departament);
         }
 

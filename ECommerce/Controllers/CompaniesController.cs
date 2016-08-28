@@ -41,7 +41,7 @@ namespace ECommerce.Controllers
         // GET: Companies/Create
         public ActionResult Create()
         {
-            ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name");
+            ViewBag.CityId = new SelectList(CombosHelper.GetCities(0), "CityId", "Name");
             ViewBag.DepartamentId = new SelectList(CombosHelper.GetDepartments(), "DepartamentId", "Name");
             return View();
         }
@@ -56,41 +56,29 @@ namespace ECommerce.Controllers
             if (ModelState.IsValid)
             {               
                 db.Companies.Add(company);
-                try
+                var response = DBHelper.SaveChanges(db);
+                if (response.Succeeded)
                 {
-                    db.SaveChanges();
                     if (company.LogoFile != null)
                     {
                         var folder = "~/Content/Logos";
                         var file = string.Format("{0}.jpg", company.CompanyId);
-                        var response = FilesHelper.UploadPhoto(company.LogoFile, folder, file);
-                        if (response)
+                        var responses = FilesHelper.UploadPhoto(company.LogoFile, folder, file);
+                        if (responses)
                         {
                             var pic = string.Format("{0}/{1}", folder, file);
                             company.Logo = pic;
                             db.Entry(company).State = EntityState.Modified;
-                            db.SaveChanges();
+                            //db.SaveChanges();
                         }
                     }
                     return RedirectToAction("Index");
                 }
-                catch (Exception ex)
-                {
-                    if (ex.InnerException != null &&
-                        ex.InnerException.InnerException != null &&
-                        ex.InnerException.InnerException.Message.Contains("_Index"))
-                    {
-                        ModelState.AddModelError(string.Empty, "Hay un registro con el mismo valor");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError(string.Empty, ex.Message);
-                    }
-                }             
+                ModelState.AddModelError(string.Empty, response.Message);         
                                 
             }
 
-            ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name", company.CityId);
+            ViewBag.CityId = new SelectList(CombosHelper.GetCities(company.DepartamentId), "CityId", "Name", company.CityId);
             ViewBag.DepartamentId = new SelectList(CombosHelper.GetDepartments(), "DepartamentId", "Name", company.DepartamentId);
             return View(company);
         }
@@ -109,7 +97,7 @@ namespace ECommerce.Controllers
                 return HttpNotFound();
             }
 
-            ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name", company.CityId);
+            ViewBag.CityId = new SelectList(CombosHelper.GetCities(company.DepartamentId), "CityId", "Name", company.CityId);
             ViewBag.DepartamentId = new SelectList(CombosHelper.GetDepartments(), "DepartamentId", "Name", company.DepartamentId);
             return View(company);
         }
@@ -123,40 +111,29 @@ namespace ECommerce.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (company.LogoFile != null)
-                {
-                    var pic = string.Empty;
-                    var folder = "~/Content/Logos";
-                    var file = string.Format("{0}.jpg", company.CompanyId);
-                    var response = FilesHelper.UploadPhoto(company.LogoFile, folder, file);
-                    if (response)
-                    {
-                        pic = string.Format("{0}/{1}", folder, file);
-                        company.Logo = pic;
-                    }
-                }
                 db.Entry(company).State = EntityState.Modified;
-                try
+                var response = DBHelper.SaveChanges(db);
+                if (response.Succeeded)
                 {
-                    db.SaveChanges();
+                    if (company.LogoFile != null)
+                    {
+                        var pic = string.Empty;
+                        var folder = "~/Content/Logos";
+                        var file = string.Format("{0}.jpg", company.CompanyId);
+                        var responses = FilesHelper.UploadPhoto(company.LogoFile, folder, file);
+                        if (responses)
+                        {
+                            pic = string.Format("{0}/{1}", folder, file);
+                            company.Logo = pic;
+                        }
+                    }
+                    //UsersHelper.CreateUserASP(customer.UserName, "Customer");
+                    //TODO: validar el cambio del email por cliente
                     return RedirectToAction("Index");
                 }
-                catch (Exception ex)
-                {
-                    if (ex.InnerException != null &&
-                        ex.InnerException.InnerException != null &&
-                        ex.InnerException.InnerException.Message.Contains("_Index"))
-                    {
-                        ModelState.AddModelError(string.Empty, "Hay un registro con el mismo valor");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError(string.Empty, ex.Message);
-                    }
-                }
-
+                ModelState.AddModelError(string.Empty, response.Message);
             }
-            ViewBag.CityId = new SelectList(CombosHelper.GetCities(), "CityId", "Name", company.CityId);
+            ViewBag.CityId = new SelectList(CombosHelper.GetCities(company.DepartamentId), "CityId", "Name", company.CityId);
             ViewBag.DepartamentId = new SelectList(CombosHelper.GetDepartments(), "DepartamentId", "Name", company.DepartamentId);
             return View(company);
         }
@@ -184,32 +161,15 @@ namespace ECommerce.Controllers
             Company company = db.Companies.Find(id);
             db.Companies.Remove(company);
             //Mensaje de adverntecnia al eliminar en cascada
-            try
+            var response = DBHelper.SaveChanges(db);
+            if (response.Succeeded)
             {
-                db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            catch (Exception ex)
-            {
-                if (ex.InnerException != null &&
-                    ex.InnerException.InnerException != null &&
-                    ex.InnerException.InnerException.Message.Contains("REFERENCE"))
-                {
-                    ModelState.AddModelError(string.Empty, "El registro no se puede eliminar porque tiene registros relacionados");
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, ex.Message);
-                }
-            }
+            ModelState.AddModelError(string.Empty, response.Message);
             return View(company);
         }
-        public JsonResult GetCities(int departamentId)
-        {
-            db.Configuration.ProxyCreationEnabled = false;
-            var cities = db.Cities.Where(c => c.DepartamentId == departamentId);
-            return Json(cities);
-        }
+
 
         protected override void Dispose(bool disposing)
         {

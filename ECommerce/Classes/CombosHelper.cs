@@ -33,16 +33,18 @@ namespace ECommerce.Classes
             return products.OrderBy(p => p.Description).ToList();
         }
 
-        public static List<City> GetCities()
+        public static List<City> GetCities(int departamentId)
         {
-            var cities = db.Cities.ToList();
+            var cities = db.Cities.Where(c => c.DepartamentId == departamentId).ToList();
             cities.Add(new City
             {
-                DepartamentId = 0,
+                CityId = 0,
                 Name = "[Seleccione una ciudad...]",
             });
+
             return cities.OrderBy(d => d.Name).ToList();
         }
+
         public static List<Company> GetCompanies()
         {
             var companies = db.Companies.ToList();

@@ -1,10 +1,10 @@
 ﻿@model ECommerce.Models.User
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Editar";
 }
 
-<h2>Edit</h2>
+<h2>Editar</h2>
 
 
 @using (Html.BeginForm())
@@ -13,7 +13,14 @@
     <div class="row">
         <div class="col-md-offset-1 col-md-5">
             <div class="form-horizontal">
-                <h4>User</h4>
+                <div class="col-md-offset-1 col-md-2">
+
+                            @if (!string.IsNullOrEmpty(Model.Photo))
+                {
+                                <img src="@Url.Content(Model.Photo)" class="media-object dp img-circle" alt="Image" style="width:100px;height:100px;max-width: 100%; height: auto;" />
+                            }
+                </div>
+                <h4 style="color:sandybrown">@Html.DisplayFor(modelItem => Model.FullName)</h4>
                 <hr />
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 @Html.HiddenFor(model => model.UserId)
@@ -61,57 +68,46 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.PhotoFile, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        <span class="btn btn-default btn-file">
-                            @Html.TextBoxFor(modelo => modelo.PhotoFile, new { type = "file" })
-                        </span>
+                        <div class="file-input-new">
+                            <div class="input-group" style="width:280px">
+                                <div tabindex="500" class="form-control file-caption">
+                                    <div class="file-caption-name" id="NombreArchivo">
+                                    </div>
+                                </div>
+                                <div class="input-group-btn" style="height:auto">
+                                    <div tabindex="500" class="btn btn-primary btn-file">
+                                        <i class="glyphicon glyphicon-folder-open"></i>
+                                        Buscar...
+                                        @Html.TextBoxFor(modelo => modelo.PhotoFile, new { type = "file", id = "files" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <hr />
-                <div class="form-group">
-                    <div class="col-md-offset-1 col-md-8">
-                        <a href="@Url.Action("Index" , "Users")" class="btn btn-warning"><i class="fa fa-backward"></i> Regresar</a>|
-                        <input type="submit" value="->-Editar-<-" class="btn btn-success" />
-                    </div>
+
+
+                    <hr />
+
                 </div>
-            </div>
         </div>
 
         <br />
         <div class="col-md-6">
             <div class="row">
-                <div class="col-md-offset-1 col-md-2">
+                <div class="col-md-offset-1 col-md-4">
                     <dl>
-                        <dt>
-                            @Html.DisplayFor(model => model.FullName)
-                        </dt>
-                        <dt>
-                            @if (!string.IsNullOrEmpty(Model.Photo))
-                {
-                                <img src="@Url.Content(Model.Photo)" alt="Image" style="width:100px;height:100px;max-width: 100%; height: auto;" />
-                            }
-                        </dt>
-                    </dl>
-                </div>
-
-                <div class="col-md-offset-1 col-md-2">
-                    <dl>
-                        <dt>
-                            @Html.DisplayFor(model => model.Company.Name)
-                        </dt>
-                        <dt><br /></dt>
                         <dt>
                             @if (!string.IsNullOrEmpty(Model.Company.Logo))
                 {
-                                <img src="@Url.Content(Model.Company.Logo)" alt="Image" style="width:100px;height:100px;max-width: 100%; height: auto;" />
+                                <img src="@Url.Content(Model.Company.Logo)"  alt="Image" style="width:100px;height:100px;max-width: 100%; height: auto;" />
                             }
                         </dt>
-
-
                     </dl>
                 </div>
-
             </div>
             <div class="form-horizontal">
+
                 <div class="form-group">
                     @Html.LabelFor(model => model.CompanyId, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
@@ -134,6 +130,13 @@
                         @Html.ValidationMessageFor(model => model.CityId, "", new { @class = "text-danger" })
                     </div>
                 </div>
+                <hr />
+                <div class="form-group">
+                    <div class="col-md-offset-1 col-md-8">
+                        <a href="@Url.Action("Index" , "Users")" class="btn btn-warning"><i class="fa fa-backward"></i> Regresar</a>|
+                        <input type="submit" value="->-Editar-<-" class="btn btn-success" />
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -141,4 +144,7 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+        <script type="text/javascript">
+        var Url = '@Url.Action("GetCities", "Generic")';
+        </script>
 }
