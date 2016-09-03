@@ -175,7 +175,7 @@ namespace ECommerce.Controllers
             var response = DBHelper.SaveChanges(db);
             if (response.Succeeded)
             {
-                UsersHelper.DeleteUser(user.UserName);
+                UsersHelper.DeleteUser(user.UserName, "User");
                 return RedirectToAction("Index");
             }
             ModelState.AddModelError(string.Empty, response.Message);

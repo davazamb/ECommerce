@@ -67,12 +67,8 @@ namespace ECommerce.Controllers
         public ActionResult AddProduct()
         {
             var user = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
-            ViewBag.ProductId = new SelectList(CombosHelper.GetProducts(user.CompanyId), "ProductId", "Description");
-            return PartialView();
-
-            //var user = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
-            //ViewBag.ProductId = new SelectList(CombosHelper.GetProducts(user.CompanyId), "ProductId", "Description");
-            //return View();
+            ViewBag.ProductId = new SelectList(CombosHelper.GetProducts(user.CompanyId, true), "ProductId", "Description");
+            return PartialView();            
         }
         // GET: Orders
         public ActionResult Index()

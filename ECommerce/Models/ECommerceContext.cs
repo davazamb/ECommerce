@@ -43,5 +43,6 @@ namespace ECommerce.Models
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<OrderDetailTmp> OrderDetailTmps { get; set; }
+        public DbSet<CompanyCustomer> CompanyCustomers { get; set; }
     }
 }

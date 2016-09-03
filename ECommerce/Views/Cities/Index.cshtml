@@ -1,4 +1,5 @@
-﻿@model IEnumerable<ECommerce.Models.City>
+﻿@model PagedList.IPagedList<ECommerce.Models.City>
+    @using PagedList.Mvc;
 
 @{
     ViewBag.Title = "Ciudades";
@@ -14,10 +15,10 @@
         <table class="table table-hover table-bordered table-striped">
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Department.Name)
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Department.Name)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Name)
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Name)
                 </th>
                 <th></th>
             </tr>
@@ -41,5 +42,16 @@
             }
 
         </table>
+        <div class="text-right">
+            Página: @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber), de: @Model.PageCount
+            @Html.PagedListPager(Model, page => Url.Action("Index", new
+   {
+       page,
+       sortOrder =
+    ViewBag.CurrentSort,
+       currentFilter = ViewBag.CurrentFilter
+   }))
+        </div>
+
     </div>
 </div>
