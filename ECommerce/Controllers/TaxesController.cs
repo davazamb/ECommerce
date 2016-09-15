@@ -68,6 +68,7 @@ namespace ECommerce.Controllers
                 try
                 {
                     db.SaveChanges();
+                    TempData["message"] = string.Format("{0} se ha guardado", tax.Description);
                     return RedirectToAction("Index");
                 }
                 catch (Exception ex)

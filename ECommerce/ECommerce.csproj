@@ -324,11 +324,11 @@
     <Content Include="Views\Companies\Details.cshtml" />
     <Content Include="Views\Companies\Edit.cshtml" />
     <Content Include="Views\Companies\Index.cshtml" />
-    <Content Include="Views\WareHouses\Users\Create.cshtml" />
-    <Content Include="Views\WareHouses\Users\Delete.cshtml" />
-    <Content Include="Views\WareHouses\Users\Details.cshtml" />
-    <Content Include="Views\WareHouses\Users\Edit.cshtml" />
-    <Content Include="Views\WareHouses\Users\Index.cshtml" />
+    <Content Include="Views\Users\Create.cshtml" />
+    <Content Include="Views\Users\Delete.cshtml" />
+    <Content Include="Views\Users\Details.cshtml" />
+    <Content Include="Views\Users\Edit.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
     <Content Include="Views\Categories\Create.cshtml" />
     <Content Include="Views\Categories\Delete.cshtml" />
     <Content Include="Views\Categories\Details.cshtml" />
