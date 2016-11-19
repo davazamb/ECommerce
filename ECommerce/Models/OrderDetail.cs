@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -40,8 +41,10 @@ namespace ECommerce.Models
         [Display(Name = "Cantidad")]
         public double Quantity { get; set; }
 
+        [JsonIgnore]
         public virtual Order Order { get; set; }
 
+        [JsonIgnore]
         public virtual Product Product { get; set; }
 
     }

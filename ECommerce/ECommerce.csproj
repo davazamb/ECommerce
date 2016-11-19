@@ -186,26 +186,33 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Classes\CombosHelper.cs" />
+    <Compile Include="Classes\CustomersResponse.cs" />
     <Compile Include="Classes\DBHelper.cs" />
     <Compile Include="Classes\FilesHelper.cs" />
     <Compile Include="Classes\MailHelper.cs" />
     <Compile Include="Classes\MovementsHelper.cs" />
+    <Compile Include="Classes\ProductResponse.cs" />
+    <Compile Include="Classes\UserResponse.cs" />
     <Compile Include="Classes\UsersHelper.cs" />
-    <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\CategoriesController.cs" />
-    <Compile Include="Controllers\CitiesController.cs" />
-    <Compile Include="Controllers\CompaniesController.cs" />
-    <Compile Include="Controllers\CustomersController.cs" />
-    <Compile Include="Controllers\DepartamentsController.cs" />
-    <Compile Include="Controllers\GenericController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\OrdersController.cs" />
-    <Compile Include="Controllers\ProductsController.cs" />
-    <Compile Include="Controllers\StatesController.cs" />
-    <Compile Include="Controllers\TaxesController.cs" />
-    <Compile Include="Controllers\UsersController.cs" />
-    <Compile Include="Controllers\WareHousesController.cs" />
+    <Compile Include="Controllers\API\CustomersController.cs" />
+    <Compile Include="Controllers\API\OrdersController.cs" />
+    <Compile Include="Controllers\API\ProductsController.cs" />
+    <Compile Include="Controllers\API\UsersController.cs" />
+    <Compile Include="Controllers\MVC\AccountController.cs" />
+    <Compile Include="Controllers\MVC\CategoriesController.cs" />
+    <Compile Include="Controllers\MVC\CitiesController.cs" />
+    <Compile Include="Controllers\MVC\CompaniesController.cs" />
+    <Compile Include="Controllers\MVC\CustomersController.cs" />
+    <Compile Include="Controllers\MVC\DepartamentsController.cs" />
+    <Compile Include="Controllers\MVC\GenericController.cs" />
+    <Compile Include="Controllers\MVC\HomeController.cs" />
+    <Compile Include="Controllers\MVC\ManageController.cs" />
+    <Compile Include="Controllers\MVC\OrdersController.cs" />
+    <Compile Include="Controllers\MVC\ProductsController.cs" />
+    <Compile Include="Controllers\MVC\StatesController.cs" />
+    <Compile Include="Controllers\MVC\TaxesController.cs" />
+    <Compile Include="Controllers\MVC\UsersController.cs" />
+    <Compile Include="Controllers\MVC\WareHousesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -224,6 +231,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\NewOrderView.cs" />
     <Compile Include="Models\Order.cs" />
+    <Compile Include="Models\OrderApi.cs" />
     <Compile Include="Models\OrderDetail.cs" />
     <Compile Include="Models\OrderDetailTmp.cs" />
     <Compile Include="Models\Product.cs" />
@@ -243,6 +251,8 @@
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\toastr.css" />
+    <Content Include="Content\toastr.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -257,6 +267,9 @@
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\toastr.scss" />
+    <Content Include="Content\toastr.less" />
+    <None Include="Properties\PublishProfiles\subirweb.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\ecommerce.js" />
     <Content Include="Scripts\fileupload.js" />
@@ -274,8 +287,12 @@
     <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\toastr.js" />
+    <Content Include="Scripts\toastr.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

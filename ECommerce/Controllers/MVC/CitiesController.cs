@@ -21,7 +21,7 @@ namespace ECommerce.Controllers
         public ActionResult Index(int? page = null)
         {
             page = (page ?? 1);
-            var cities = db.Cities.Include(c => c.Department).OrderBy(c => c.Department.Name).ThenBy(c => c.Name);
+            var cities = db.Cities.Include(c => c.Departament).OrderBy(c => c.Departament.Name).ThenBy(c => c.Name);
             return View(cities.ToPagedList((int)page, 5));
         }
 

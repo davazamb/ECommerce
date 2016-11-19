@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -50,14 +51,21 @@ namespace ECommerce.Models
         public string Remarks { get; set; }
         //Campo de solo lectura de calculo
         //TODO:Error de valor nulo
+        [JsonIgnore]
         [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:N2}")]
         public double Stock { get { return Inventories.Sum(i => i.Stock); } }
+        [JsonIgnore]
         public virtual Company Company { get; set; }
+        [JsonIgnore]
         public virtual Category Category { get; set; }
+        [JsonIgnore]
         public virtual Tax Tax { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<Inventory> Inventories { get; set; }
+        [JsonIgnore]
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+        [JsonIgnore]
         public virtual ICollection<OrderDetailTmp> OrderDetailTmps { get; set; }
 
     }

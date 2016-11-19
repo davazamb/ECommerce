@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -28,7 +29,9 @@ namespace ECommerce.Models
         [Display(Name = "Empresa")]
         public int CompanyId { get; set; }
 
+        [JsonIgnore]
         public virtual Company Company { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Product> Products { get; set; }
 
     }

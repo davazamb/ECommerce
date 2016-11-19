@@ -47,6 +47,7 @@ namespace ECommerce.Controllers
 
             if (user == null)
             {
+                TempData["messageupdate"] = "Data saved";
                 return RedirectToAction("Index", "Home");
             }
             var category = new Category { CompanyId = user.CompanyId, };
@@ -66,6 +67,7 @@ namespace ECommerce.Controllers
                 var response = DBHelper.SaveChanges(db);
                 if (response.Succeeded)
                 {
+                    TempData["messagesaved"] = "Data saved";
                     return RedirectToAction("Index");
                 }
                 ModelState.AddModelError(string.Empty, response.Message);                
@@ -103,6 +105,7 @@ namespace ECommerce.Controllers
                 var response = DBHelper.SaveChanges(db);
                 if (response.Succeeded)
                 {
+                    TempData["messageupdate"] = "Data saved";
                     return RedirectToAction("Index");
                 }
                 ModelState.AddModelError(string.Empty, response.Message);
@@ -136,6 +139,7 @@ namespace ECommerce.Controllers
             var response = DBHelper.SaveChanges(db);
             if (response.Succeeded)
             {
+                TempData["messagedelete"] = "Data saved";
                 return RedirectToAction("Index");
             }
             ModelState.AddModelError(string.Empty, response.Message);

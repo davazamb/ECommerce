@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -18,6 +19,7 @@ namespace ECommerce.Models
         [Index("State_Description_Index", IsUnique = true)]
         public string Description { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<Order> Orders { get; set; }
 
     }

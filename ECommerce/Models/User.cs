@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -56,8 +57,11 @@ namespace ECommerce.Models
         [Display(Name = "Foto")]
         public HttpPostedFileBase PhotoFile { get; set; }
         //Esta es lado de varios de la relacion su Padre
+        [JsonIgnore]
         public virtual Departament Departament { get; set; }
+        [JsonIgnore]
         public virtual City City { get; set; }
+        [JsonIgnore]
         public virtual Company Company { get; set; }
     }
 }

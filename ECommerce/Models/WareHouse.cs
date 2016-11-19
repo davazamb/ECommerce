@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -41,10 +42,14 @@ namespace ECommerce.Models
         [Display(Name = "Ciudad")]
         public int CityId { get; set; }
 
+        [JsonIgnore]
         public virtual Departament Departament { get; set; }
+        [JsonIgnore]
         public virtual City City { get; set; }
+        [JsonIgnore]
         public virtual Company Company { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<Inventory> Inventories { get; set; }
 
     }

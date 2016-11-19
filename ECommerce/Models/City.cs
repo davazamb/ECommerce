@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -23,12 +24,17 @@ namespace ECommerce.Models
         public int DepartamentId { get; set; }
 
         //Su padre
-        public virtual Departament Department { get; set; }
+        [JsonIgnore]
+        public virtual Departament Departament { get; set; }
 
         //EL Ciudad tiene varias y se pluraliza su hijo
+        [JsonIgnore]
         public virtual ICollection<Company> Companies { get; set; }
+        [JsonIgnore]
         public virtual ICollection<User> Users { get; set; }
+        [JsonIgnore]
         public virtual ICollection<WareHouse> WareHouses { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Customer> Customers { get; set; }
 
     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -14,7 +15,9 @@ namespace ECommerce.Models
         public int CompanyId { get; set; }
         public int CustomerId { get; set; }
 
+        [JsonIgnore]
         public virtual Company Company { get; set; }
+        [JsonIgnore]
         public virtual Customer Customer { get; set; }
 
     }

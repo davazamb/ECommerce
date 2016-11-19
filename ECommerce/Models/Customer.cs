@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -52,12 +53,16 @@ namespace ECommerce.Models
         [Display(Name = "Cliente")]
         public string FullName { get { return string.Format("{0} {1}", FirstName, LastName); } }
 
+        [JsonIgnore]
         public virtual Departament Departament { get; set; }
 
+        [JsonIgnore]
         public virtual City City { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<CompanyCustomer> CompanyCustomers { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<Order> Orders { get; set; }
 
 

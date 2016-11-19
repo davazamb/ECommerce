@@ -22,6 +22,9 @@ namespace ECommerce
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            //Serializar
+            //var json = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
+            //json.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.Objects;
         }
 
         private void CheckRolesAndSuperUser()

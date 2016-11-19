@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -17,7 +18,9 @@ namespace ECommerce.Models
         [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:N2}")]
         public double Stock { get; set; }
 
+        [JsonIgnore]
         public virtual WareHouse WareHouse { get; set; }
+        [JsonIgnore]
         public virtual Product Product { get; set; }
     }
 }

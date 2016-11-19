@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -44,6 +45,7 @@ namespace ECommerce.Models
         [DisplayFormat(DataFormatString = "{0:C2}", ApplyFormatInEditMode = false)]
         public decimal Value { get { return Price * (decimal)Quantity; } }
 
+        [JsonIgnore]
         public virtual Product Product { get; set; }
 
     }

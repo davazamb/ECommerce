@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -41,14 +42,23 @@ namespace ECommerce.Models
         public int CityId { get; set; }
 
         //Esta es lado de varios de la relacion su Padre
+        [JsonIgnore]
         public virtual Departament Departament { get; set; }
+        [JsonIgnore]
         public virtual City City { get; set; }
+        [JsonIgnore]
         public virtual ICollection<User> Users { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Category> Categories { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Tax> Taxes { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Product> Products { get; set; }
+        [JsonIgnore]
         public virtual ICollection<CompanyCustomer> CompanyCustomers { get; set; }
+        [JsonIgnore]
         public virtual ICollection<WareHouse> WareHouses { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Order> Orders { get; set; }
     }
 }

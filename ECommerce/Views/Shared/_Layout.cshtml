@@ -7,6 +7,8 @@
     <title>@ViewBag.Title - E-Commerce</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/toastr")
+
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -73,5 +75,27 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+
+    @if (TempData["messagesaved"] != null)
+    {
+        <div>@TempData["messagesaved"]</div>
+        <script type="text/javascript">
+            (function () { toastr.success("Agregado"); })();
+        </script>
+    }
+    @if (TempData["messagedelete"] != null)
+    {
+        <div>@TempData["messagedelete"]</div>
+        <script type="text/javascript">
+            (function () { toastr.error("Se elimino", "Eliminado"); })();
+        </script>
+    }
+    @if (TempData["messageupdate"] != null)
+    {
+        <div>@TempData["messageupdate"]</div>
+        <script type="text/javascript">
+            (function () { toastr.warning("Actualizado"); })();
+        </script>
+    }
 </body>
 </html>
