@@ -29,7 +29,6 @@ namespace ECommerce.Controllers.API
                 var orderAPI = new OrderApi
                 {
                     Customer = order.Customer,
-                    OrderDetails = order.OrderDetails,
                     Company = order.Company,
                     Date = order.Date,
                     OrderId = order.OrderId,

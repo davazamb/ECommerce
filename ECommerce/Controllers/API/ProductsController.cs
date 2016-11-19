@@ -36,7 +36,6 @@ namespace ECommerce.Controllers.API
                     Description = product.Description,
                     Image = product.Image,
                     Inventories = product.Inventories,
-                    OrderDetails = product.OrderDetails,
                     Price = product.Price,
                     ProductId = product.ProductId,
                     Remarks = product.Remarks,

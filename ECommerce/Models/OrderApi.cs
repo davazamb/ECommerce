@@ -13,6 +13,5 @@ namespace ECommerce.Models
         public  Customer Customer { get; set; }
         public  State State { get; set; }
         public  Company Company { get; set; }        
-        public  ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }

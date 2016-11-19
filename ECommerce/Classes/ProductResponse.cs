@@ -23,7 +23,6 @@ namespace ECommerce.Classes
         public Company Company { get; set; }
         public Category Category { get; set; }
         public Tax Tax { get; set; }
-        public ICollection<OrderDetail> OrderDetails { get; set; }        
 
     }
 }

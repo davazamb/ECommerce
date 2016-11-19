@@ -185,18 +185,35 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Classes\CategoryRespon.cs" />
+    <Compile Include="Classes\CityResponse.cs" />
     <Compile Include="Classes\CombosHelper.cs" />
+    <Compile Include="Classes\CompanyCustomerResponse.cs" />
+    <Compile Include="Classes\CompanyResponse.cs" />
     <Compile Include="Classes\CustomersResponse.cs" />
     <Compile Include="Classes\DBHelper.cs" />
+    <Compile Include="Classes\DepartmentResponse.cs" />
     <Compile Include="Classes\FilesHelper.cs" />
+    <Compile Include="Classes\InventoryResponse.cs" />
     <Compile Include="Classes\MailHelper.cs" />
     <Compile Include="Classes\MovementsHelper.cs" />
+    <Compile Include="Classes\OrderDetailResponse.cs" />
     <Compile Include="Classes\ProductResponse.cs" />
+    <Compile Include="Classes\StateResponse.cs" />
+    <Compile Include="Classes\TaxResponse.cs" />
     <Compile Include="Classes\UserResponse.cs" />
     <Compile Include="Classes\UsersHelper.cs" />
+    <Compile Include="Controllers\API\CategoriesController.cs" />
+    <Compile Include="Controllers\API\CitiesController.cs" />
+    <Compile Include="Controllers\API\CompaniesController.cs" />
+    <Compile Include="Controllers\API\CompanyCustomersController.cs" />
     <Compile Include="Controllers\API\CustomersController.cs" />
+    <Compile Include="Controllers\API\DepartamentsController.cs" />
+    <Compile Include="Controllers\API\InventoriesController.cs" />
     <Compile Include="Controllers\API\OrdersController.cs" />
     <Compile Include="Controllers\API\ProductsController.cs" />
+    <Compile Include="Controllers\API\StatesController.cs" />
+    <Compile Include="Controllers\API\TaxesController.cs" />
     <Compile Include="Controllers\API\UsersController.cs" />
     <Compile Include="Controllers\MVC\AccountController.cs" />
     <Compile Include="Controllers\MVC\CategoriesController.cs" />
@@ -213,6 +230,7 @@
     <Compile Include="Controllers\MVC\TaxesController.cs" />
     <Compile Include="Controllers\MVC\UsersController.cs" />
     <Compile Include="Controllers\MVC\WareHousesController.cs" />
+    <Compile Include="Controllers\API\OrderDetailsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
