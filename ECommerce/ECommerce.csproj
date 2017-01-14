@@ -251,6 +251,8 @@
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrderApi.cs" />
     <Compile Include="Models\OrderDetail.cs" />
+    <Compile Include="Models\OrderDetailsAdmin.cs" />
+    <Compile Include="Models\OrderDetailsUser.cs" />
     <Compile Include="Models\OrderDetailTmp.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\Response.cs" />
@@ -400,6 +402,11 @@
     <Content Include="Views\Orders\Edit.cshtml" />
     <Content Include="Views\Orders\Index.cshtml" />
     <Content Include="Views\Orders\AddProduct.cshtml" />
+    <Content Include="Views\Orders\IndexAdmin.cshtml" />
+    <Content Include="Views\Orders\EditAdmin.cshtml" />
+    <Content Include="Views\Orders\DeleteAdmin.cshtml" />
+    <Content Include="Views\Orders\DetailsAdmin.cshtml" />
+    <Content Include="Views\Orders\List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

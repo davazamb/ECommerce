@@ -1,0 +1,49 @@
+﻿@model ECommerce.Models.ListViewModel
+
+
+@{
+    ViewBag.Title = "Ordenes";
+}
+
+<h2>Ordenes</h2>
+
+<p>
+    @Html.ActionLink("Crear Order", "Create")
+</p>
+
+<div class="row">
+    <div class="col-md-6">
+        @foreach (var c in Model.Customers)
+        {
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    @Html.DisplayFor(modelItem => c.FullName)'s Orders
+                    (@Html.DisplayFor(modelItem => c.Phone))
+                    id #@Html.DisplayFor(modelItem => c.CustomerId)
+                </div>
+                @foreach (var o in Model.Orders)
+                {
+                    <div class="row">
+                        <div class="col-xs-offset-1 col-md-3">
+                            Order id #@Html.DisplayFor(modelItem => o.OrderId)
+                        </div>
+                        <div class="col-xs-offset-2">
+                            <strong>@Html.DisplayFor(modelItem => o.Remarks)</strong>
+                            Food on @Html.DisplayFor(modelItem => o.Date)
+                            <strong>@Html.DisplayFor(modelItem => o.State.Description)</strong>
+
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+
+@section Scripts{
+    <script type="text/javascript">
+        $('#list').addClass('active');
+    </script>
+}
+

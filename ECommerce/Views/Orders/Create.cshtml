@@ -162,7 +162,9 @@ else
     @Scripts.Render("~/bundles/jqueryval")
 <script type="text/javascript">
     $(function () {
-        $('#datepicker').datetimepicker({ format: 'YYYY/MM/DD' });
+        $(".form_datetime").datetimepicker({
+            format: "dd MM yyyy - hh:ii"
+        });
     });
 
     $(document).ready(function () {

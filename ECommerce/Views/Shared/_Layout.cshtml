@@ -38,6 +38,12 @@
                                 <li>@Html.ActionLink("Usuarios", "Index", "Users")</li>
                             </ul>
                         </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Movimientos<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink("Ordenes", "IndexAdmin", "Orders")</li>
+                            </ul>
+                        </li>
                     }
                     @if (User.IsInRole("User"))
                     {

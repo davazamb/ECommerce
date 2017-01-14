@@ -7,11 +7,9 @@ using System.Web;
 
 namespace ECommerce.Models
 {
-    public class Order
+    public class OrderDetailsUser
     {
-        [Key]
         public int OrderId { get; set; }
-
         [Required(ErrorMessage = "El Campo {0} es requerido")]
         [Range(1, double.MaxValue, ErrorMessage = "Debe selecionar una {0}")]
         [Display(Name = "Empresa")]
@@ -28,24 +26,20 @@ namespace ECommerce.Models
 
         [Required(ErrorMessage = "The field {0} is required")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd hh:mm}", ApplyFormatInEditMode = true)]
         [Display(Name = "Fecha")]
         public DateTime Date { get; set; }
 
         [DataType(DataType.MultilineText)]
         [Display(Name = "Comentarios")]
         public string Remarks { get; set; }
-
-        [JsonIgnore]
-        public virtual Customer Customer { get; set; }
-        [JsonIgnore]
-        public virtual State State { get; set; }
-        [JsonIgnore]
-        public virtual Company Company { get; set; }
-
-        [JsonIgnore]
-        public virtual ICollection<OrderDetail> OrderDetails { get; set; }                                                                                  
-
-
+        //public List<OrderDetail> ODetails { get; set; }
+        //public virtual Customer Customer { get; set; }
+        //public virtual State State { get; set; }
+        //public virtual Company Company { get; set; }   
+      
+        public virtual ICollection<Customer> Customers { get; set; }   
+        public virtual ICollection<Order> Orders { get; set; }
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }

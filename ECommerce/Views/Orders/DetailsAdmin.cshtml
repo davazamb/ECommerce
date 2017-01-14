@@ -1,0 +1,100 @@
+﻿@model ECommerce.Models.OrderDetailsAdmin
+
+@{
+    ViewBag.Title = "DetailsAdmin";
+}
+
+<h2>DetailsAdmin</h2>
+
+<div>
+    <h4>OrderDetail</h4>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Customer.UserName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Customer.UserName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.State.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.State.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.Remarks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Remarks)
+        </dd>*@
+
+                       
+        <dt>
+            @Html.DisplayNameFor(model => model.ODetails[0].Order.Remarks)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ODetails[0].Order.Remarks)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ODetails[0].Product.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ODetails[0].Product.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ODetails[0].Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ODetails[0].Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ODetails[0].TaxRate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ODetails[0].TaxRate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ODetails[0].Price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ODetails[0].Price)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ODetails[0].Quantity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ODetails[0].Quantity)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "EditAdmin", new { id = Model.OrderId }) |
+    @Html.ActionLink("Back to List", "IndexAdmin")
+</p>
